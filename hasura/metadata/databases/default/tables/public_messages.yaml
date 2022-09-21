@@ -1,0 +1,25 @@
+table:
+  name: messages
+  schema: public
+array_relationships:
+  - name: recipients
+    using:
+      manual_configuration:
+        column_mapping:
+          channel_id: channel_id
+        insertion_order: null
+        remote_table:
+          name: channel_users
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - message
+        - author_id
+        - channel_id
+      filter:
+        recipients:
+          user_id:
+            _eq: X-Hasura-User-Id
